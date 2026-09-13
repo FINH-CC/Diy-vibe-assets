@@ -10,6 +10,9 @@ prototype pages — not recordings or embeds. Source pulled from
 ```
 src/
   App.tsx                        HashRouter + one <Route> per page number
+                                  (page 1 is registered at both "/" and "/1"
+                                  so it matches the same #/<N> pattern as
+                                  every other card's link)
   main.tsx                       Entry point, imports styles/globals.css
   styles/globals.css             Real diy.org design tokens, pulled from
                                   DIYVIBES/src/app/globals.css

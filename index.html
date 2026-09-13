@@ -23,7 +23,7 @@
         <h1>Animations &amp; interactions</h1>
         <p class="lede">Hover a card to preview. Click to open it full-screen — every one is real, editable code.</p>
       </div>
-      <button class="icon-btn" id="help-btn" aria-label="Instructions" title="Instructions">?</button>
+      <button class="text-btn" id="help-btn">Instructions</button>
     </div>
 
     <div class="block-head">
@@ -48,7 +48,7 @@
 
     <footer>
       Source: <a href="https://github.com/alexisbardini/diyvibes" target="_blank" rel="noopener">github.com/alexisbardini/diyvibes</a> ·
-      add new items in <code>assets/items.js</code> · see the <button class="link-btn" id="help-btn-2">instructions</button>
+      <button class="link-btn" id="help-btn-2">Instructions</button>
     </footer>
   </div>
 
@@ -61,14 +61,14 @@
       <div class="modal-body">
         <section>
           <h3>Pull the latest from GitHub</h3>
-          <p>Each animation's real source lives in <code>alexisbardini/diyvibes</code> on <code>origin/main</code>, under <code>src/app/ui-animations/</code>. Pull a fresh copy of any page without touching your local DIYVIBES checkout:</p>
+          <p>Source of truth: <code>alexisbardini/diyvibes</code>, <code>src/app/ui-animations/</code>.</p>
           <pre>git archive origin/main -- src/app/ui-animations/9 | tar -x -C /tmp/pull
 cp /tmp/pull/src/app/ui-animations/9/* interactions/src/pages/ui-animations/9/</pre>
-          <p>Re-apply the same Next.js→Vite fixes noted at the top of <code>interactions/README.md</code> (plain <code>&lt;img&gt;</code> instead of <code>next/image</code>, etc.) if the file changed upstream.</p>
+          <p>Then re-apply the Next.js→Vite fixes in <code>interactions/README.md</code> if the file changed upstream.</p>
         </section>
         <section>
           <h3>Make changes</h3>
-          <p>Edit any page under <code>interactions/src/pages/ui-animations/&lt;N&gt;/page.tsx</code> and its <code>.module.css</code>. Run <code>npm run dev</code> inside <code>interactions/</code> to preview live, then <code>npm run build</code> to regenerate <code>interactions/dist/</code> — that's what the dashboard cards link to.</p>
+          <p>Edit <code>interactions/src/pages/ui-animations/&lt;N&gt;/page.tsx</code> and its <code>.module.css</code>. <code>npm run dev</code> to preview, <code>npm run build</code> to update <code>dist/</code> — that's what the cards link to.</p>
         </section>
         <section>
           <h3>Duplicate an animation</h3>
@@ -112,23 +112,6 @@ cp /tmp/pull/src/app/ui-animations/9/* interactions/src/pages/ui-animations/9/</
     const grid = document.getElementById("clip-grid");
     document.getElementById("clip-count").textContent = CLIPS.length + " animations";
 
-    // Lazy-load each thumbnail only once it's near the viewport. Loading and
-    // decoding all 17 up front at page load is what was hanging the tab.
-    const cards = [];
-    function loadVisibleThumbnails() {
-      const margin = 300;
-      cards.forEach((card) => {
-        const video = card.querySelector("video");
-        if (video.src) return;
-        const r = card.getBoundingClientRect();
-        if (r.bottom > -margin && r.top < window.innerHeight + margin) {
-          video.src = card.dataset.src;
-        }
-      });
-    }
-    window.addEventListener("scroll", loadVisibleThumbnails, { passive: true });
-    window.addEventListener("resize", loadVisibleThumbnails);
-
     CLIPS.forEach((clip, i) => {
       const card = document.createElement("a");
       card.className = "card";
@@ -146,38 +129,48 @@ cp /tmp/pull/src/app/ui-animations/9/* interactions/src/pages/ui-animations/9/</
 
       card.innerHTML = `
         <div class="card-media">
+          <img class="card-poster" src="assets/posters/${clip.file.replace(/\.mp4$/, ".png")}" alt="" loading="lazy" />
           <span class="card-badge">${String(i + 1).padStart(2, "0")}</span>
-          <span class="card-hint">${clip.live ? "hover to preview · click to open" : "hover to preview"}</span>
+          ${clip.live ? '<span class="card-hint">click to open full-screen</span>' : ""}
         </div>
         <div class="card-body">
           <h3>${clip.title}</h3>
           <p>${clip.desc}</p>
         </div>
       `;
-      card.querySelector(".card-media").prepend(document.createElement("video"));
-      const video = card.querySelector("video");
+      const video = document.createElement("video");
+      video.className = "card-video";
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
       video.preload = "none";
-      video.addEventListener("loadedmetadata", () => {
-        try { video.currentTime = Math.min(0.15, video.duration / 4); } catch (e) {}
-      });
+      card.querySelector(".card-media").appendChild(video);
 
       grid.appendChild(card);
-      cards.push(card);
 
+      // Static posters (assets/posters/, pre-generated with QuickLook —
+      // `qlmanage -t -s 600 -o assets/posters assets/videos/<file>.mp4`,
+      // then rename the .mp4.png result to .png) cover the at-rest view for
+      // all 17 cards at once with zero cost. A <video> only ever loads on
+      // hover and is fully released on mouseleave — Chrome caps how many
+      // <video> elements can hold an active decoder at once, so assigning
+      // a src to all 17 up front (even staggered over time) left later
+      // ones stuck at readyState 0 forever once that cap was hit.
       const play = () => {
+        video.classList.add("active");
         if (!video.src) video.src = card.dataset.src;
         video.currentTime = 0;
         video.play().catch(() => {});
       };
-      const stop = () => { video.pause(); try { video.currentTime = Math.min(0.15, video.duration / 4); } catch (e) {} };
+      const stop = () => {
+        video.classList.remove("active");
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+      };
       card.addEventListener("mouseenter", play);
       card.addEventListener("mouseleave", stop);
     });
-
-    loadVisibleThumbnails();
 
     // Instructions popup
     const modal = document.getElementById("help-modal");

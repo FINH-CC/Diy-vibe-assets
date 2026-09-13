@@ -46,6 +46,19 @@ a { color: inherit; }
   justify-content: center;
 }
 .icon-btn:hover { color: var(--text); border-color: var(--neutral-6, #444); }
+.text-btn {
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.text-btn:hover { color: var(--text); border-color: var(--neutral-6, #444); }
 .link-btn {
   background: none;
   border: none;
@@ -122,6 +135,13 @@ h1 {
   object-fit: cover;
   display: block;
 }
+.card-video {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+.card-video.active { opacity: 1; }
 .card-badge {
   position: absolute;
   top: 10px;
