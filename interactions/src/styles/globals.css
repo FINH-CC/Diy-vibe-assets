@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+/* ─────────────────────────────────────────────────────
+   RESET
+───────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─────────────────────────────────────────────────────
+   CUSTOM FONTS — Museo Sans Rounded
+   700 = body / UI text
+   900 = headings
+───────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Museo Sans Rounded';
+  src: url('/fonts/MuseoSansRounded700.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo Sans Rounded';
+  src: url('/fonts/MuseoSansRounded900.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────────────────
+   DESIGN TOKENS — diy.org brand
+   Source: storybook.diy.org / exhibitions-palette--overview
+───────────────────────────────────────────────────── */
+
+:root {
+
+  /* ── Typography ──────────────────────────── */
+  --font-sans: 'Museo Sans Rounded', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'Fira Code', monospace;
+
+  /* ── Brand: Purple (primary action) ─────── */
+  --color-purple-1:   #7861FF;   /* tint / hover */
+  --color-purple-2:   #684FF8;   /* default */
+  --color-purple-3:   #543FC7;   /* shade / pressed */
+
+  /* ── Brand: Green (success / confirm) ───── */
+  --color-green-1:    #0EE3AA;   /* tint */
+  --color-green-2:    #00D3A3;   /* default */
+  --color-green-3:    #00BAA1;   /* shade */
+
+  /* ── System: Red (error / destructive) ──── */
+  --color-red-1:      #FEA3A3;
+  --color-red-2:      #FA5F5F;
+  --color-red-3:      #F24141;
+
+  /* ── System: Yellow (warning / alert) ───── */
+  --color-yellow-1:   #FFE488;
+  --color-yellow-2:   #FFCA36;
+  --color-yellow-3:   #FFBA20;
+
+  /* ── Neutral Scale ───────────────────────── */
+  --color-white:       #FFFFFF;
+  --color-neutral-1:   #F8F8F8;
+  --color-neutral-2:   #F5F5F5;
+  --color-neutral-3:   #EDEDED;
+  --color-neutral-4:   #E3E3E3;
+  --color-neutral-5:   #D4D4D4;
+  --color-neutral-6:   #B2B2B2;
+  --color-neutral-7:   #7D7D7D;
+  --color-neutral-8:   #454545;
+  --color-black:       #000000;
+
+  /* ── Secondary Palette ───────────────────── */
+  --color-salmon-1:    #FFC2DB;
+  --color-salmon-2:    #FF85A3;
+  --color-salmon-3:    #F64E79;
+  --color-salmon-4:    #E5095A;
+
+  --color-flamingo-1:  #FFC2FF;
+  --color-flamingo-2:  #FF7ADB;
+  --color-flamingo-3:  #FF41BF;
+  --color-flamingo-4:  #D61596;
+
+  --color-violet-1:    #D4A3FF;
+  --color-violet-2:    #AB61FF;
+  --color-violet-3:    #9745F5;
+  --color-violet-4:    #6B00E5;
+
+  --color-blueberry-1: #94BBFF;
+  --color-blueberry-2: #4F7FF8;
+  --color-blueberry-3: #3469ED;
+  --color-blueberry-4: #3B50ED;
+
+  --color-sky-1:       #94EDFF;
+  --color-sky-2:       #47E0FF;
+  --color-sky-3:       #00BFE5;
+  --color-sky-4:       #0098C7;
+
+  --color-foam-1:      #94FFEA;
+  --color-foam-2:      #53F5D4;
+  --color-foam-3:      #00E6C7;
+  --color-foam-4:      #00C7BA;
+
+  --color-slime-1:     #B2EB50;
+  --color-slime-2:     #85CC3D;
+  --color-slime-3:     #6DB536;
+  --color-slime-4:     #589E2F;
+
+  --color-amber-1:     #FFD966;
+  --color-amber-2:     #FFCA36;
+  --color-amber-3:     #FAB700;
+  --color-amber-4:     #DB9600;
+
+  --color-carrot-1:    #FFB85C;
+  --color-carrot-2:    #FFA866;
+  --color-carrot-3:    #FF9147;
+  --color-carrot-4:    #FF7F38;
+
+  /* ── Semantic Aliases (use these in components) ── */
+  --color-brand:          var(--color-purple-2);  /* #684FF8 — default action */
+  --color-brand-hover:    var(--color-purple-1);  /* #7861FF — tint/hover */
+  --color-brand-pressed:  var(--color-purple-3);  /* #543FC7 — shade/pressed */
+  --color-brand-tint:     #EDE9FF;                /* light bg for brand UI */
+
+  --color-success:        var(--color-green-2);
+  --color-success-hover:  var(--color-green-1);
+  --color-error:          var(--color-red-3);
+  --color-warning:        var(--color-yellow-3);
+
+  --color-ink:            var(--color-neutral-8);  /* #454545 */
+  --color-ink-strong:     var(--color-black);
+  --color-ink-muted:      var(--color-neutral-7);  /* #7D7D7D */
+  --color-ink-subtle:     var(--color-neutral-6);  /* #B2B2B2 */
+  --color-ink-disabled:   var(--color-neutral-5);  /* #D4D4D4 */
+
+  --color-surface:         var(--color-white);
+  --color-surface-raised:  var(--color-neutral-1);  /* #F8F8F8 */
+  --color-surface-border:  var(--color-neutral-3);  /* #EDEDED */
+  --color-surface-disabled: var(--color-neutral-4);
+
+  --color-page:            var(--color-neutral-2);  /* #F5F5F5 */
+
+  /* ── Border Radius ───────────────────────── */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────── */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:  0 16px 40px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+}
+
+/* ─────────────────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────────────────── */
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: radial-gradient(circle, #d4d4d4 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ─────────────────────────────────────────────────────
+   TYPE SCALE  (source: storybook.diy.org/typography)
+───────────────────────────────────────────────────── */
+
+/* Headings use 900 weight */
+.text-h1 { font-size: 45px; font-weight: 900; line-height: 50px; }
+.text-h2 { font-size: 36px; font-weight: 900; line-height: 40px; }
+.text-h3 { font-size: 30px; font-weight: 900; line-height: 36px; }
+.text-h4 { font-size: 24px; font-weight: 900; line-height: 28px; }
+.text-h5 { font-size: 22px; font-weight: 900; line-height: 26px; }
+
+/* Body / UI text uses 700 weight */
+.text-subheading-b { font-size: 18px; font-weight: 700; line-height: 22px; }
+.text-subheading-m { font-size: 18px; font-weight: 700; line-height: 22px; }
+
+.text-body-l-b { font-size: 16px; font-weight: 700; line-height: 20px; }
+.text-body-l-m { font-size: 16px; font-weight: 700; line-height: 20px; }
+
+.text-body-m-b { font-size: 14px; font-weight: 700; line-height: 18px; }
+.text-body-m-m { font-size: 14px; font-weight: 700; line-height: 18px; }
+
+.text-caption-b { font-size: 12px; font-weight: 700; line-height: 14px; }
+.text-caption-m { font-size: 12px; font-weight: 700; line-height: 14px; }
+
+/* ─────────────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────────────── */
+
+@keyframes swiggle {
+  0%   { transform: rotate(0deg) scale(1); }
+  15%  { transform: rotate(-4deg) scale(1.03); }
+  30%  { transform: rotate(4deg) scale(1.03); }
+  45%  { transform: rotate(-3deg) scale(1.01); }
+  60%  { transform: rotate(3deg) scale(1.01); }
+  75%  { transform: rotate(-1.5deg); }
+  90%  { transform: rotate(1.5deg); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────────────────
+   ACCESSIBILITY — Reduced Motion
+───────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────
+   NUNITO — used by the kid-content pages (map, quiz,
+   inspo board, etc.) instead of the app-chrome font.
+   Loaded via the @import at the top of this file;
+   self-host it if you'd rather not depend on an
+   external font request.
+───────────────────────────────────────────────────── */
+.nunito {
+  font-family: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+}

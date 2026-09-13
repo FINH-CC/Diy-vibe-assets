@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DIY Vibes — Prototype Library</title>
+<script>
+  // Some static servers serve this page for a directory request that's missing
+  // its trailing slash, without redirecting the address bar to add it. When that
+  // happens every relative path below (assets/items.js, videos, etc.) resolves
+  // one folder too high and 404s. Self-correct before loading anything else.
+  if (!location.pathname.endsWith("/") && !location.pathname.endsWith(".html")) {
+    location.replace(location.pathname + "/" + location.search + location.hash);
+  }
+</script>
+<link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="hero-row">
+      <div>
+        <span class="eyebrow">DIY Vibes · Prototype Library</span>
+        <h1>Animations &amp; interactions</h1>
+        <p class="lede">Hover a card to preview. Click to open it full-screen — every one is real, editable code.</p>
+      </div>
+      <button class="icon-btn" id="help-btn" aria-label="Instructions" title="Instructions">?</button>
+    </div>
+
+    <div class="block-head">
+      <h2>Featured demo</h2>
+      <span>Playable</span>
+    </div>
+    <a class="card featured" id="game-card" href="#" target="_blank" rel="noopener">
+      <div class="card-media"><img id="game-cover" alt="" /></div>
+      <div class="card-body">
+        <div class="tag-row" id="game-tags"></div>
+        <h3 id="game-title"></h3>
+        <p id="game-desc"></p>
+        <span class="play-btn">▶ Play the demo</span>
+      </div>
+    </a>
+
+    <div class="block-head" style="margin-top:48px">
+      <h2>UI animations</h2>
+      <span id="clip-count"></span>
+    </div>
+    <div class="grid" id="clip-grid"></div>
+
+    <footer>
+      Source: <a href="https://github.com/alexisbardini/diyvibes" target="_blank" rel="noopener">github.com/alexisbardini/diyvibes</a> ·
+      add new items in <code>assets/items.js</code> · see the <button class="link-btn" id="help-btn-2">instructions</button>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="help-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <div class="modal-head">
+        <h2 id="help-title">Working with this library</h2>
+        <button class="icon-btn" id="help-close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <section>
+          <h3>Pull the latest from GitHub</h3>
+          <p>Each animation's real source lives in <code>alexisbardini/diyvibes</code> on <code>origin/main</code>, under <code>src/app/ui-animations/</code>. Pull a fresh copy of any page without touching your local DIYVIBES checkout:</p>
+          <pre>git archive origin/main -- src/app/ui-animations/9 | tar -x -C /tmp/pull
+cp /tmp/pull/src/app/ui-animations/9/* interactions/src/pages/ui-animations/9/</pre>
+          <p>Re-apply the same Next.js→Vite fixes noted at the top of <code>interactions/README.md</code> (plain <code>&lt;img&gt;</code> instead of <code>next/image</code>, etc.) if the file changed upstream.</p>
+        </section>
+        <section>
+          <h3>Make changes</h3>
+          <p>Edit any page under <code>interactions/src/pages/ui-animations/&lt;N&gt;/page.tsx</code> and its <code>.module.css</code>. Run <code>npm run dev</code> inside <code>interactions/</code> to preview live, then <code>npm run build</code> to regenerate <code>interactions/dist/</code> — that's what the dashboard cards link to.</p>
+        </section>
+        <section>
+          <h3>Duplicate an animation</h3>
+          <p>Copy a numbered folder (e.g. <code>interactions/src/pages/ui-animations/9/</code> → <code>.../18/</code>), add a <code>&lt;Route&gt;</code> for it in <code>interactions/src/App.tsx</code>, then rebuild.</p>
+        </section>
+        <section>
+          <h3>Expand the library</h3>
+          <p>Add one entry to <code>CLIPS</code> in <code>assets/items.js</code> (file, title, desc, and the <code>live</code> route number) — the dashboard card and full-screen link are generated from that automatically.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/items.js"></script>
+  <script>
+    if (!window.DIY_ITEMS) {
+      document.body.innerHTML =
+        '<div style="max-width:640px;margin:48px auto;padding:24px;' +
+        'font-family:-apple-system,sans-serif;background:#2a1414;color:#ffd9d9;' +
+        'border:1px solid #7a2f2f;border-radius:10px">' +
+        '<b>assets/items.js failed to load.</b><br><br>' +
+        'This page uses a relative path (<code>assets/items.js</code>), so it only works ' +
+        'when loaded through the <code>diy-vibes-assets</code> folder with its structure intact ' +
+        '— e.g. serving that folder directly, not a parent folder, and not opened via a ' +
+        'copy/moved single file.<br><br>' +
+        'Current URL: <code>' + location.href + '</code>' +
+        '</div>';
+      throw new Error("DIY_ITEMS missing — aborting render");
+    }
+
+    const { GAME, CLIPS } = window.DIY_ITEMS;
+
+    document.getElementById("game-card").href = GAME.href;
+    document.getElementById("game-cover").src = GAME.cover;
+    document.getElementById("game-title").textContent = GAME.title;
+    document.getElementById("game-desc").textContent = GAME.desc;
+    document.getElementById("game-tags").innerHTML = GAME.tags
+      .map((t) => `<span class="tag">${t}</span>`)
+      .join("");
+
+    const grid = document.getElementById("clip-grid");
+    document.getElementById("clip-count").textContent = CLIPS.length + " animations";
+
+    // Lazy-load each thumbnail only once it's near the viewport. Loading and
+    // decoding all 17 up front at page load is what was hanging the tab.
+    const cards = [];
+    function loadVisibleThumbnails() {
+      const margin = 300;
+      cards.forEach((card) => {
+        const video = card.querySelector("video");
+        if (video.src) return;
+        const r = card.getBoundingClientRect();
+        if (r.bottom > -margin && r.top < window.innerHeight + margin) {
+          video.src = card.dataset.src;
+        }
+      });
+    }
+    window.addEventListener("scroll", loadVisibleThumbnails, { passive: true });
+    window.addEventListener("resize", loadVisibleThumbnails);
+
+    CLIPS.forEach((clip, i) => {
+      const card = document.createElement("a");
+      card.className = "card";
+      card.dataset.src = "assets/videos/" + clip.file;
+
+      if (clip.live) {
+        card.href = "interactions/dist/#/" + clip.live;
+        card.target = "_blank";
+        card.rel = "noopener";
+      } else {
+        card.href = "assets/videos/" + clip.file;
+        card.target = "_blank";
+        card.rel = "noopener";
+      }
+
+      card.innerHTML = `
+        <div class="card-media">
+          <span class="card-badge">${String(i + 1).padStart(2, "0")}</span>
+          <span class="card-hint">${clip.live ? "hover to preview · click to open" : "hover to preview"}</span>
+        </div>
+        <div class="card-body">
+          <h3>${clip.title}</h3>
+          <p>${clip.desc}</p>
+        </div>
+      `;
+      card.querySelector(".card-media").prepend(document.createElement("video"));
+      const video = card.querySelector("video");
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = "none";
+      video.addEventListener("loadedmetadata", () => {
+        try { video.currentTime = Math.min(0.15, video.duration / 4); } catch (e) {}
+      });
+
+      grid.appendChild(card);
+      cards.push(card);
+
+      const play = () => {
+        if (!video.src) video.src = card.dataset.src;
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      };
+      const stop = () => { video.pause(); try { video.currentTime = Math.min(0.15, video.duration / 4); } catch (e) {} };
+      card.addEventListener("mouseenter", play);
+      card.addEventListener("mouseleave", stop);
+    });
+
+    loadVisibleThumbnails();
+
+    // Instructions popup
+    const modal = document.getElementById("help-modal");
+    const openHelp = () => { modal.hidden = false; };
+    const closeHelp = () => { modal.hidden = true; };
+    document.getElementById("help-btn").addEventListener("click", openHelp);
+    document.getElementById("help-btn-2").addEventListener("click", openHelp);
+    document.getElementById("help-close").addEventListener("click", closeHelp);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeHelp(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeHelp(); });
+  </script>
+</body>
+</html>

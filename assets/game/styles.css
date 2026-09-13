@@ -1,0 +1,193 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#ffd9e6;color:#3a2740;font-family:'Baloo 2',system-ui,-apple-system,sans-serif}
+#root{position:relative;width:100vw;height:100vh;overflow:hidden}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+[hidden]{display:none!important}
+
+.hud{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;gap:12px;z-index:10;pointer-events:none}
+.hud-left{display:flex;gap:8px;align-items:center}
+.hud > *{pointer-events:auto}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.85);border:2px solid #fff;border-radius:999px;height:40px;padding:0 16px;font-family:inherit;font-weight:800;letter-spacing:1px;font-size:15px;line-height:1;color:#3a2740;box-shadow:0 6px 0 rgba(120,60,90,.18),0 12px 24px rgba(120,60,90,.18)}
+.pill b{color:#e65a8a;font-size:18px}
+.pill.hud-center{position:absolute;left:50%;top:0;transform:translateX(-50%);height:80px;padding:0 32px;gap:16px;font-size:30px}
+.pill.hud-center b{font-size:36px}
+
+.hud-right{display:flex;gap:6px;background:rgba(255,255,255,.85);border:2px solid #fff;border-radius:999px;padding:6px;box-shadow:0 6px 0 rgba(120,60,90,.18),0 12px 24px rgba(120,60,90,.18)}
+.theme-btn{width:34px;height:34px;border-radius:50%;border:0;background:transparent;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.theme-btn span{display:block;width:24px;height:24px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.theme-btn:hover{transform:scale(1.1)}
+.theme-btn.active{background:#3a2740}
+.theme-btn.active span{border-color:#fff}
+.level-switch{gap:6px;padding:0 8px 0 14px}
+.level-switch .lvl-label{font-size:13px;opacity:.75;margin-right:2px}
+.lvl-btn{width:28px;height:28px;border-radius:50%;border:2px solid #ffd5e3;background:#fff;color:#3a2740;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
+.lvl-btn:hover{transform:scale(1.08);border-color:#e65a8a}
+.lvl-btn.active{background:#e65a8a;color:#fff;border-color:#e65a8a;box-shadow:0 2px 0 rgba(120,60,90,.25)}
+
+.hint{display:none}
+
+/* Title screen */
+#title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:50;background:radial-gradient(ellipse at center,rgba(255,217,230,0) 30%,rgba(255,217,230,.6) 100%);backdrop-filter:blur(2px);overflow:auto;padding:20px}
+.title-card{display:flex;flex-direction:column;align-items:center;gap:14px;animation:floatIn .7s cubic-bezier(.2,.9,.3,1.1) both}
+.title-pedestal{width:220px;height:14px;background:radial-gradient(ellipse,rgba(120,60,90,.35),transparent 70%);margin-top:40px}
+.title-h1{font-size:48px;font-weight:900;letter-spacing:3px;color:#fff;text-align:center;line-height:.95;text-shadow:0 4px 0 #c93a82,0 8px 0 rgba(120,30,80,.5),0 14px 26px rgba(120,30,80,.4);transform:rotate(-2deg)}
+.title-h1 span{font-size:28px;letter-spacing:6px;display:inline-block;transform:translateY(-4px)}
+.title-h1 b{display:block;font-size:62px;color:#fff7c2;text-shadow:0 4px 0 #d97a1c,0 8px 0 rgba(140,60,10,.4),0 14px 26px rgba(120,30,80,.4)}
+@keyframes floatIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Wiggle for the play button */
+@keyframes playWiggle{
+  0%,100%{transform:rotate(-1.5deg) translateY(0)}
+  25%{transform:rotate(2deg) translateY(-2px)}
+  50%{transform:rotate(-2.5deg) translateY(0)}
+  75%{transform:rotate(1.5deg) translateY(-1px)}
+}
+.lp-btn-title{animation:playWiggle 1.4s ease-in-out infinite}
+.lp-btn-title:hover{animation-play-state:paused}
+
+.big-btn{border:0;background:linear-gradient(180deg,#ffe7a8 0,#ffb86a 100%);color:#5a2a10;font-weight:900;letter-spacing:4px;font-size:24px;padding:18px 48px;border-radius:999px;cursor:pointer;box-shadow:0 6px 0 #c8741b,0 14px 28px rgba(140,60,10,.4),inset 0 2px 0 rgba(255,255,255,.6);transition:transform .12s,box-shadow .12s;animation:pulse 1.6s ease-in-out infinite;font-family:inherit}
+.big-btn:hover{transform:translateY(-2px) scale(1.03)}
+.big-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #c8741b,0 6px 12px rgba(140,60,10,.4),inset 0 2px 0 rgba(255,255,255,.6)}
+.small-btn{font-size:16px;padding:12px 28px;letter-spacing:2px}
+.ghost-btn{background:linear-gradient(180deg,#d6f5e3 0,#7fd1a0 100%);color:#1d4a32;box-shadow:0 6px 0 #4f9a6e,0 12px 24px rgba(30,80,50,.35),inset 0 2px 0 rgba(255,255,255,.5)}
+.ghost-btn:active{box-shadow:0 2px 0 #4f9a6e,0 6px 12px rgba(30,80,50,.35),inset 0 2px 0 rgba(255,255,255,.5)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+/* Hat picker */
+.hat-picker{display:flex;flex-direction:column;align-items:center;gap:10px;background:rgba(255,255,255,.9);border:2px solid #fff;border-radius:24px;padding:14px 20px;box-shadow:0 6px 0 rgba(120,60,90,.18);position:relative;z-index:60;pointer-events:auto}
+.hat-label{font-size:11px;letter-spacing:4px;font-weight:800;color:#7a4863}
+.hat-row{display:flex;gap:10px}
+.hat-btn{width:60px;height:60px;border-radius:14px;border:3px solid transparent;background:linear-gradient(180deg,#fff7c2,#ffe1a0);cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;transition:transform .35s cubic-bezier(.2,.9,.3,1.4),border-color .25s,background .25s,box-shadow .25s;box-shadow:0 3px 0 rgba(120,60,90,.2);overflow:hidden;position:relative}
+.hat-btn:hover{transform:translateY(-3px) scale(1.08) rotate(-3deg)}
+.hat-btn.active{border-color:#e65a8a;background:linear-gradient(180deg,#fff,#ffd5e3);transform:translateY(-4px) scale(1.18) rotate(0);box-shadow:0 6px 0 rgba(230,90,138,.35)}
+.hat-btn .hat-3d{transition:transform .35s cubic-bezier(.2,.9,.3,1.4)}
+.hat-btn.active .hat-3d{transform:translateY(-2px) scale(1.05)}
+
+/* ---- Low-poly CSS hat thumbnails ---- */
+.hat-3d{position:relative;display:block;width:46px;height:38px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.18))}
+.hat-3d::before,.hat-3d::after{content:"";position:absolute;left:50%;transform:translateX(-50%)}
+
+/* No hat — empty pedestal with a pink crossed circle */
+.hat-none::before{bottom:2px;width:24px;height:6px;border-radius:50%;background:radial-gradient(ellipse,rgba(120,60,90,.35),transparent 70%)}
+.hat-none::after{top:6px;width:22px;height:22px;border-radius:50%;border:3px dashed #c44a78;background:transparent}
+
+/* Top hat — black cylinder with brim */
+.hat-top::before{bottom:6px;width:42px;height:8px;border-radius:50%/40%;background:linear-gradient(180deg,#3a2230,#0d0508);box-shadow:0 1px 0 rgba(255,255,255,.25) inset}
+.hat-top::after{bottom:10px;width:26px;height:30px;background:linear-gradient(90deg,#1a1018 0%,#332530 50%,#1a1018 100%);clip-path:polygon(8% 100%,92% 100%,90% 0,10% 0);box-shadow:inset 4px 0 0 rgba(255,255,255,.08)}
+
+/* Cowboy hat — wide curved brim, dome top */
+.hat-cowboy::before{bottom:4px;width:46px;height:12px;border-radius:50%/55%;background:linear-gradient(180deg,#c97a3a,#7a3a10);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25),inset 0 2px 0 rgba(255,255,255,.25)}
+.hat-cowboy::after{bottom:11px;width:24px;height:22px;background:linear-gradient(90deg,#7a3a10,#c97a3a 50%,#7a3a10);clip-path:polygon(15% 100%,85% 100%,75% 10%,50% 0,25% 10%);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25)}
+
+/* Orange hat — round orange ball with leaf */
+.hat-orange::before{bottom:4px;width:34px;height:30px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd17a,#ff8a3d 55%,#c4541a 100%);box-shadow:inset -4px -4px 0 rgba(0,0,0,.18)}
+.hat-orange::after{top:0;left:60%;width:10px;height:10px;background:linear-gradient(135deg,#4f9a4a,#2a5a2a);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);transform:translateX(-50%) rotate(20deg)}
+
+/* Crown — gold band + 5 spikes */
+.hat-crown{display:flex;align-items:flex-end;justify-content:center}
+.hat-crown::before{bottom:4px;width:40px;height:14px;background:linear-gradient(180deg,#ffe88a,#d49a1a);border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25),inset 0 2px 0 rgba(255,255,255,.5)}
+.hat-crown::after{bottom:14px;width:40px;height:20px;background:linear-gradient(180deg,#ffe88a,#d49a1a);clip-path:polygon(0% 100%,12% 30%,25% 100%,37% 20%,50% 100%,62% 25%,75% 100%,87% 30%,100% 100%);filter:drop-shadow(0 1px 0 rgba(0,0,0,.25))}
+
+/* Win card */
+#win{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:60;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 0%,rgba(60,30,60,.45) 100%);backdrop-filter:blur(4px);animation:floatIn .35s ease-out}
+.win-card{position:relative;background:#fff;border:5px solid #3a2740;border-radius:30px;padding:44px 54px 40px;text-align:center;box-shadow:12px 12px 0 #3a2740,12px 12px 0 5px #ffd5e3,22px 22px 0 5px #3a2740;min-width:480px}
+.win-card::before{content:"";position:absolute;inset:7px;border:3px dashed #ffd5e3;border-radius:21px;pointer-events:none}
+.win-card h2{font-size:44px;font-weight:900;letter-spacing:2px;color:#e65a8a;margin-bottom:18px;text-shadow:3px 3px 0 #fff7c2,6px 6px 0 #3a2740;transform:rotate(-1.5deg)}
+.win-counter{position:relative;display:flex;flex-wrap:wrap;flex-direction:row;align-items:center;justify-content:center;gap:0 24px;margin:14px 0 30px;padding:26px 24px 20px;background:#fff7e6;border:4px solid #3a2740;border-radius:20px}
+.win-counter-label{flex-basis:100%;margin-top:10px}
+.win-counter-star{font-size:88px;line-height:1;filter:drop-shadow(0 3px 0 rgba(58,39,64,.25));animation:starPulse 1.2s ease-in-out infinite}
+.win-counter b{font-size:110px;line-height:1;font-weight:900;color:#e65a8a;text-shadow:4px 4px 0 #fff,8px 8px 0 #3a2740;animation:countPop .5s cubic-bezier(.2,1.6,.4,1) both .15s}
+.win-counter-label{font-size:16px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:#7a4863}
+@keyframes countPop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+@keyframes starPulse{0%,100%{transform:scale(1) rotate(-6deg)}50%{transform:scale(1.15) rotate(6deg)}}
+
+/* bigger buttons inside the win card */
+.win-card .lp-btn{height:76px}
+.win-card .lp-label{font-size:22px;letter-spacing:4px}
+
+/* wiggling primary button + confetti rain behind the card */
+#win{overflow:hidden}
+#againBtn{animation:playWiggle 1.4s ease-in-out infinite}
+#againBtn:hover{animation-play-state:paused}
+.win-confetti{position:absolute;inset:0;pointer-events:none;z-index:0}
+.win-card{z-index:1}
+
+/* rotating sunburst rays behind the card */
+.win-burst{position:absolute;left:calc(50% - 460px);top:calc(50% - 460px);width:920px;height:920px;border-radius:50%;pointer-events:none;z-index:0;background:repeating-conic-gradient(rgba(255,255,255,.2) 0deg 11deg,rgba(255,255,255,0) 11deg 24deg);-webkit-mask-image:radial-gradient(circle,rgba(0,0,0,.95) 0%,rgba(0,0,0,.4) 45%,transparent 68%);mask-image:radial-gradient(circle,rgba(0,0,0,.95) 0%,rgba(0,0,0,.4) 45%,transparent 68%);animation:burstSpin 26s linear infinite}
+@keyframes burstSpin{to{transform:rotate(360deg)}}
+
+/* card entrance slam */
+.win-wrap{position:relative;z-index:1;animation:cardSlam .55s cubic-bezier(.2,.9,.3,1.25) both .1s}
+@keyframes cardSlam{0%{opacity:0;transform:scale(2.1) rotate(4deg)}55%{opacity:1;transform:scale(.94) rotate(-1.5deg)}80%{transform:scale(1.05) rotate(.5deg)}100%{transform:scale(1) rotate(0)}}
+
+/* letter-by-letter bouncing title */
+#winTitle .wl{display:inline-block;animation:letterBounce 1.15s ease-in-out calc(var(--i)*.06s) infinite}
+@keyframes letterBounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-7px) rotate(-4deg)}60%{transform:translateY(1px) rotate(1deg)}}
+
+/* capybara peeking over the top of the card */
+.win-capy{position:absolute;left:50%;top:-64px;width:112px;height:60px;transform:translateX(-50%);transform-origin:bottom center;z-index:0;animation:capyBob 2.2s ease-in-out infinite}
+@keyframes capyBob{0%,100%{transform:translateX(-50%) translateY(3px) scale(1.3)}50%{transform:translateX(-50%) translateY(-7px) scale(1.3)}}
+.wc-ear{position:absolute;top:-11px;width:27px;height:23px;background:#e6b870;border:4px solid #3a2740;border-radius:50% 50% 40% 40%}
+.wc-ear-l{left:5px}
+.wc-ear-r{right:5px}
+.wc-head{position:absolute;inset:0;background:#f5d27a;border:4px solid #3a2740;border-radius:26px 26px 10px 10px}
+.wc-eye{position:absolute;top:20px;width:9px;height:13px;background:#3a2740;border-radius:50%}
+.wc-eye-l{left:22px}
+.wc-eye-r{right:22px}
+.wc-snout{position:absolute;left:50%;transform:translateX(-50%);bottom:4px;width:36px;height:21px;background:#e6b870;border-radius:45%}
+.wc-snout::before,.wc-snout::after{content:"";position:absolute;top:7px;width:5px;height:7px;background:#3a2740;border-radius:50%}
+.wc-snout::before{left:9px}
+.wc-snout::after{right:9px}
+.win-confetti i{position:absolute;top:-80px;left:var(--x);width:48px;height:32px;background:var(--c);animation:confettiFall var(--d) linear var(--dl) infinite}
+@keyframes confettiFall{
+  0%{transform:translateY(-4vh) rotate(0deg) rotateX(0)}
+  100%{transform:translateY(108vh) rotate(720deg) rotateX(540deg)}
+}
+.win-card .big-btn{display:block;margin:10px auto 0;width:100%;background:#ffb86a;color:#3a2740;border:4px solid #3a2740;border-radius:0;box-shadow:6px 6px 0 #3a2740;clip-path:polygon(0 8px,8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px));animation:none;text-shadow:none}
+.win-card .big-btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #3a2740}
+.win-card .big-btn:active{transform:translate(3px,3px);box-shadow:3px 3px 0 #3a2740}
+.win-card .ghost-btn{background:#7fd1a0;color:#1d4a32}
+
+.fx-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:70}
+
+/* ============== MOBILE ON-SCREEN CONTROLS ============== */
+.mobile-controls{position:absolute;left:0;right:0;bottom:0;height:200px;z-index:40;pointer-events:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 18px 22px}
+.mobile-controls > *{pointer-events:auto}
+.joystick{position:relative;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.55),rgba(255,255,255,.25));border:3px solid rgba(255,255,255,.85);box-shadow:0 6px 0 rgba(120,60,90,.25),0 12px 24px rgba(120,60,90,.25);touch-action:none;user-select:none;-webkit-user-select:none}
+.joy-knob{position:absolute;left:50%;top:50%;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffd5e3 60%,#e65a8a);border:3px solid #fff;box-shadow:0 4px 0 rgba(120,60,90,.35),0 6px 14px rgba(120,60,90,.35);transform:translate(-50%,-50%);transition:transform .04s linear;pointer-events:none}
+.action-stack{display:flex;flex-direction:column;gap:14px;align-items:flex-end}
+.action-btn{font-family:inherit;font-weight:900;font-size:34px;border:3px solid #fff;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .08s}
+.action-btn:active{transform:translateY(4px) scale(.95)}
+.jump-btn{width:96px;height:96px;background:radial-gradient(circle at 35% 30%,#ffe7a8,#ff8a3d 70%,#c8541b);box-shadow:0 8px 0 #8a3a10,0 14px 24px rgba(140,60,10,.4)}
+.jump-btn:active{box-shadow:0 3px 0 #8a3a10,0 6px 12px rgba(140,60,10,.4)}
+.fart-btn{width:64px;height:64px;font-size:24px;background:radial-gradient(circle at 35% 30%,#e6f5c2,#7fc78a 70%,#3a7a3a);box-shadow:0 6px 0 #2a5a2a,0 10px 18px rgba(30,80,30,.4)}
+.fart-btn:active{box-shadow:0 2px 0 #2a5a2a,0 4px 8px rgba(30,80,30,.4)}
+
+/* Move the bottom hint above the joystick on touch devices so it doesn't overlap */
+body.touch .hint{bottom:auto;top:64px}
+
+/* Low-poly chunky buttons (matches space-janitor / flyer vibe) */
+.lp-btn{position:relative;border:0;background:transparent;cursor:pointer;padding:0;display:block;width:100%;margin:14px 0 0;font-family:inherit;outline:none;height:62px}
+.lp-btn .lp-label{position:relative;z-index:3;font-weight:900;color:#3a2740;letter-spacing:3px;text-transform:uppercase;font-size:18px;display:flex;align-items:center;justify-content:center;height:100%;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.lp-btn .lp-face{position:absolute;left:0;right:0;top:0;bottom:0;display:block}
+.lp-btn .lp-top{background:linear-gradient(135deg,#ffe7a8 0%,#ffb86a 50%,#e8841c 100%);clip-path:polygon(8% 0,92% 0,100% 30%,100% 70%,92% 100%,8% 100%,0 70%,0 30%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.45),inset 0 -8px 0 rgba(0,0,0,.12);z-index:2;transition:transform .08s}
+.lp-btn .lp-bot{background:linear-gradient(135deg,#7a3a10,#3a1a05);clip-path:polygon(8% 0,92% 0,100% 30%,100% 70%,92% 100%,8% 100%,0 70%,0 30%);transform:translateY(8px);z-index:1;filter:drop-shadow(0 4px 0 rgba(0,0,0,.25))}
+.lp-btn::after{content:"";position:absolute;left:14%;right:14%;top:14%;height:32%;background:linear-gradient(to bottom,rgba(255,255,255,.55),rgba(255,255,255,0));clip-path:polygon(4% 0,96% 0,90% 100%,10% 100%);z-index:3;pointer-events:none}
+.lp-btn:hover .lp-top{transform:translateY(-1px)}
+.lp-btn:active .lp-top{transform:translateY(6px)}
+.lp-btn:active .lp-bot{transform:translateY(2px)}
+.lp-btn-green .lp-top{background:linear-gradient(135deg,#d6f5e3 0%,#7fd1a0 50%,#3a8c5e 100%)}
+.lp-btn-green .lp-bot{background:linear-gradient(135deg,#1a4a2a,#062012)}
+.lp-btn-green .lp-label{color:#1d4a32}
+
+/* Title tagline */
+.title-tag{font-size:14px;letter-spacing:5px;font-weight:800;color:#fff;text-transform:uppercase;text-shadow:0 2px 0 #c93a82,0 4px 10px rgba(120,30,80,.5);margin-top:-6px;transform:rotate(-1deg)}
+
+/* Title low-poly play button — wider than win-card buttons */
+.lp-btn-title{width:280px;height:74px;margin:6px 0 0}
+.lp-btn-title .lp-label{font-size:22px;letter-spacing:5px}
+
+/* Music toggle — sized like the coin pill */
+.music-toggle{cursor:pointer;font-size:18px;line-height:1;height:40px;min-width:48px;padding:0 14px;transition:transform .12s}
+.music-toggle:hover{transform:scale(1.08)}
+.music-toggle.off{opacity:.55;background:rgba(220,220,220,.85)}

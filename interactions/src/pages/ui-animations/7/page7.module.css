@@ -1,0 +1,101 @@
+.screen {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* ChatDino dark green */
+  background: #269D65;
+  cursor: var(--cursor-page);
+}
+
+/* Chatdino colours, matching tab 5 */
+.wrap {
+  --chatdino-text: #0D0D0D;
+  --chatdino-grey: #7D7D7D;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(560px, calc(100vw - 48px));
+  color: var(--chatdino-text);
+}
+
+@keyframes cardPop {
+  from {
+    opacity: 0;
+    transform: translateY(36px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shieldPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 18px 2px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 34px 8px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  width: 100%;
+  background: #fff;
+  border-radius: 28px;
+  padding: 28px 30px;
+  animation:
+    cardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both,
+    shieldPulse 2.4s ease-in-out 0.7s infinite;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+.avatarVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cardTitle {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.cardMsg {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.action {
+  /* ChatDino brand green, sampled from the mascot */
+  color: #269D65;
+}
+
+.cardMeta {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--chatdino-grey);
+  margin-top: 4px;
+}

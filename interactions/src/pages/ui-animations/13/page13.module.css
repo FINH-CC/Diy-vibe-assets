@@ -1,0 +1,728 @@
+.screen {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #269D65;
+  cursor: var(--cursor-page);
+}
+
+.stage {
+  display: flex;
+  gap: 120px;
+  align-items: flex-start;
+  flex-shrink: 0;
+  zoom: 1.12;
+}
+
+/* single bento per page — fills the screen */
+.stageSolo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  zoom: 1.46;
+}
+
+@media (max-height: 940px) {
+  .stageSolo {
+    zoom: 1.23;
+  }
+}
+
+@media (max-height: 780px) {
+  .stageSolo {
+    zoom: 1;
+  }
+}
+
+.panelWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 96px;
+}
+
+.replayBtn {
+  position: fixed;
+  right: 28px;
+  bottom: 24px;
+  z-index: 20;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: var(--cursor-btn);
+  transition: transform 0.15s ease;
+}
+
+.replayBtn img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.22));
+}
+
+.replayBtn:hover {
+  transform: scale(1.15);
+}
+
+.replayBtn:active {
+  transform: scale(0.9);
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    translate: 0 36px;
+  }
+}
+
+/* ── shared tablet panel chrome ── */
+.panel {
+  width: 460px;
+  height: 580px;
+  flex-shrink: 0;
+  border: 8px solid #D3D2D2;
+  border-radius: 24px;
+  background: #FFFFFF;
+  box-shadow:
+    -2px 5px 1px 0px rgba(0, 0, 0, 0),
+    -1px 3px 1px 0px rgba(0, 0, 0, 0.01),
+    -1px 2px 1px 0px rgba(0, 0, 0, 0.05),
+    0.5px 1px 1px 0px rgba(0, 0, 0, 0.09),
+    0px 2px 6.7px 0px rgba(0, 0, 0, 0.25);
+  padding: 7px 8px;
+  overflow: hidden;
+  animation: panelIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) var(--p, 0s) both;
+}
+
+.slot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── star badge ── */
+.starBadge {
+  position: absolute;
+  top: 6.5px;
+  right: 6.5px;
+  z-index: 3;
+  background: #FDFDFC;
+  border: 1px solid rgba(186, 186, 186, 0.05);
+  border-radius: 57px;
+  padding: 4.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(-1px 2px 0.5px rgba(0, 0, 0, 0.05)) drop-shadow(0.5px 1px 0.5px rgba(0, 0, 0, 0.09));
+  animation:
+    starSpin 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--sd)) both,
+    starGlow 2.6s ease-in-out calc(var(--p, 0s) + var(--sd) + 0.7s) infinite;
+}
+
+.starBadge img {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+@keyframes starSpin {
+  from {
+    transform: rotate(-360deg) scale(0);
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes starGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(38, 157, 101, 0);
+  }
+  50% {
+    box-shadow: 0 0 10px 3px rgba(38, 157, 101, 0.6);
+  }
+}
+
+@keyframes cardPopIn {
+  from {
+    opacity: 0;
+    scale: 0.55;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.cardPop {
+  animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--cd)) both;
+}
+
+/* ── left panel: research board ── */
+.board {
+  /* spans the full panel behind the bezel — the panel clips the scroll */
+  position: absolute;
+  inset: -7px -8px;
+}
+
+.boardSlot {
+  overflow: visible;
+}
+
+/* one tall sheet of ruled paper — title, subcopy and pins all scroll together */
+.boardScroll {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 824px;
+  padding-top: 24px;
+  background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 26.5px,
+      #E9EEF5 26.5px,
+      #E9EEF5 28px
+    ),
+    #FFFFFF;
+  animation: boardScroll 16s ease-in-out calc(var(--p, 0s) + 0.8s) infinite;
+}
+
+.boardTitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1A1A1A;
+  margin-bottom: 2px;
+}
+
+.boardSub {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #7D7D7D;
+  margin-bottom: 8px;
+}
+
+.boardArea {
+  position: relative;
+  width: 337px;
+  height: 724px;
+  margin: 6px auto 0;
+}
+
+@keyframes boardScroll {
+  0%,
+  4% {
+    transform: translateY(0);
+  }
+  30%,
+  50% {
+    transform: translateY(-260px);
+  }
+  84%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: 2.5deg;
+  }
+  75% {
+    rotate: -2.5deg;
+  }
+}
+
+.bCard:hover {
+  animation: wiggle 0.4s ease-in-out infinite;
+  scale: 1.05;
+  z-index: 5;
+}
+
+.bCard {
+  position: absolute;
+  background: #FFFFFF;
+  border: 1px solid #E7E8E7;
+  border-radius: 10px;
+  overflow: hidden;
+  filter: drop-shadow(-1px 2px 0.5px rgba(0, 0, 0, 0.05)) drop-shadow(0.5px 1px 0.5px rgba(0, 0, 0, 0.09));
+}
+
+/* two-column collage — videos at 16:9, no overlapping cards */
+.pVideo { left: 0; top: 0; width: 158px; height: 89px; transform: rotate(-3deg); }
+.pImg1 { left: 0; top: 105px; width: 158px; height: 128px; transform: rotate(-3deg); }
+.pPostit { left: 0; top: 249px; width: 158px; height: 108px; transform: rotate(3deg); }
+.pImg3 { left: 0; top: 373px; width: 158px; height: 74px; transform: rotate(0deg); }
+.pDrawing { left: 172px; top: 0; width: 165px; height: 185px; transform: rotate(3deg); }
+.pVideo2 { left: 172px; top: 201px; width: 165px; height: 93px; transform: rotate(-4deg); }
+.pPdf { left: 188px; top: 310px; width: 132px; height: 129px; transform: rotate(-3deg); }
+.pLink { left: 172px; top: 451px; width: 165px; height: 38px; transform: rotate(-2deg); }
+
+/* second screen of pins */
+.pImg4 { left: 0; top: 475px; width: 158px; height: 128px; transform: rotate(-3deg); }
+.pPostit2 { left: 0; top: 619px; width: 158px; height: 100px; transform: rotate(2deg); }
+.pImg5 { left: 172px; top: 505px; width: 165px; height: 120px; transform: rotate(3deg); }
+.pLink2 { left: 172px; top: 641px; width: 165px; height: 38px; transform: rotate(-2deg); }
+
+.pLink,
+.pLink2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+}
+
+.linkIcon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: #5B8DEF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.linkTitle {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.linkUrl {
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #5B8DEF;
+  white-space: nowrap;
+}
+
+.cardVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardPlay {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 32px;
+}
+
+.cardStrip {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 7px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.cardStripFill {
+  width: 42%;
+  height: 100%;
+  border-radius: 2px;
+  background: #269D65;
+}
+
+.cardImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pPdf {
+  display: flex;
+  flex-direction: column;
+}
+
+.filePreview {
+  flex: 1;
+  min-height: 0;
+  background: #EFF2F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.miniPage {
+  width: 67px;
+  padding: 8px 7px;
+  margin-top: 12px;
+  background: #FFFFFF;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: flex-end;
+}
+
+.mLine {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: #D5DAE1;
+}
+
+.mTitleDoc {
+  width: 68%;
+  background: #5B8DEF;
+}
+
+.mTitlePdf {
+  width: 55%;
+  background: #E5484D;
+}
+
+.mThumb {
+  width: 100%;
+  height: 25px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.fileFooter {
+  height: 46px;
+  flex-shrink: 0;
+  background: #FFFFFF;
+  border-top: 1px solid #EEF0F2;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 10px;
+}
+
+.fileText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.fileName {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.fileMeta {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #9AA0A6;
+}
+
+.pdfBadge {
+  flex-shrink: 0;
+  background: #E5484D;
+  color: #FFFFFF;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border-radius: 5px;
+  padding: 4px 6px;
+}
+
+.drawingArt {
+  position: absolute;
+  inset: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+}
+
+.pPostit,
+.pPostit2 {
+  background: #FFE873;
+  border-color: #F2D659;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.postitText {
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #6B5400;
+  text-align: center;
+}
+
+/* ── right side: stacked fan of quiz cards ── */
+.deck {
+  position: relative;
+  width: 350px;
+  height: 496px;
+  margin-top: 34px;
+  animation: panelIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) var(--p, 0s) both;
+}
+
+.qCard {
+  position: absolute;
+  inset: 0;
+  background: #FFFFFF;
+  border: 1px solid #ECECEA;
+  border-radius: 22px;
+  padding: 16px 16px 18px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+}
+
+.backCard {
+  transform: rotate(7deg) translate(18px, 10px);
+}
+
+.q1Card {
+  animation: swipeAway 0.5s ease calc(var(--p, 0s) + 2.35s) forwards;
+}
+
+.q2Card {
+  transform: rotate(-5deg) translate(-12px, 6px) scale(0.985);
+  animation:
+    toFront 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + 2.5s) forwards,
+    swipeAway 0.5s ease calc(var(--p, 0s) + 4.75s) forwards;
+}
+
+.q3Card {
+  transform: rotate(5deg) translate(14px, 8px) scale(0.985);
+  animation: toFront 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + 4.9s) forwards;
+}
+
+@keyframes toFront {
+  to {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+  }
+}
+
+@keyframes swipeAway {
+  to {
+    transform: translateX(170px) rotate(14deg);
+    opacity: 0;
+  }
+}
+
+.qProgress {
+  height: 6px;
+  border-radius: 3px;
+  background: #EEF0F2;
+  margin-bottom: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.qProgressFill {
+  height: 100%;
+  border-radius: 3px;
+  background: #269D65;
+  width: var(--pf, 0%);
+  animation: progressGrow 0.45s ease calc(var(--p, 0s) + var(--q, 0s) + 1.5s) both;
+}
+
+@keyframes progressGrow {
+  from {
+    width: var(--pf, 0%);
+  }
+  to {
+    width: var(--pt, 100%);
+  }
+}
+
+.quizImage {
+  width: 100%;
+  height: 158px;
+  object-fit: cover;
+  border: 1px solid #E7E8E7;
+  border-radius: 12px;
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+.qMeta {
+  font-size: 11px;
+  font-weight: 800;
+  color: #7D7D7D;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.qText {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1.3;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.qOpts {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.opt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  border: 1.5px solid #E3E3E3;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #454545;
+}
+
+.optMark {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  opacity: 0;
+  font-size: 14px;
+}
+
+@keyframes optPress {
+  50% {
+    scale: 0.96;
+  }
+}
+
+@keyframes optRight {
+  to {
+    background: #E9F9EF;
+    border-color: #269D65;
+    color: #157F36;
+  }
+}
+
+@keyframes optWrong {
+  to {
+    background: #FDECEC;
+    border-color: #E5484D;
+    color: #B3261E;
+  }
+}
+
+@keyframes markIn {
+  from {
+    opacity: 0;
+    scale: 0.4;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* correct pick — timings are card-relative via --q */
+.optPickRight {
+  animation:
+    optPress 0.3s ease calc(var(--p, 0s) + var(--q, 0s) + 1.25s),
+    optRight 0.3s ease calc(var(--p, 0s) + var(--q, 0s) + 1.4s) forwards;
+}
+
+.optPickRight .optMark {
+  color: #269D65;
+  animation: markIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--q, 0s) + 1.5s) forwards;
+}
+
+/* confetti burst from the correct answer */
+.confetti {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.confetti span {
+  position: absolute;
+  width: 7px;
+  height: 10px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: confettiPop 1s ease-out calc(var(--p, 0s) + var(--q, 0s) + 1.45s) forwards;
+}
+
+@keyframes confettiPop {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(0.5);
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1);
+  }
+}
+
+/* wrong pick — timings are card-relative via --q */
+.optPickWrong {
+  animation:
+    optPress 0.3s ease calc(var(--p, 0s) + var(--q, 0s) + 1.25s),
+    optWrong 0.3s ease calc(var(--p, 0s) + var(--q, 0s) + 1.4s) forwards;
+}
+
+.optPickWrong .optMark {
+  color: #E5484D;
+  animation: markIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--q, 0s) + 1.5s) forwards;
+}
+
+/* ...then the real answer is revealed */
+.optReveal {
+  animation: optRight 0.35s ease calc(var(--p, 0s) + var(--q, 0s) + 1.7s) forwards;
+}
+
+.optReveal .optMark {
+  color: #269D65;
+  animation: markIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--q, 0s) + 1.8s) forwards;
+}
+
+@media (max-width: 1250px) {
+  .stage {
+    zoom: 0.95;
+  }
+}
+
+@media (max-width: 1000px) {
+  .stage {
+    zoom: 0.68;
+  }
+}

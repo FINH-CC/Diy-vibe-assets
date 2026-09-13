@@ -1,0 +1,627 @@
+.screen {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #E9E8E8;
+  cursor: var(--cursor-page);
+}
+
+.stage {
+  display: flex;
+  gap: 34px;
+  align-items: flex-end;
+  width: 1050px;
+  flex-shrink: 0;
+  zoom: 1.28;
+}
+
+/* single bento per page — fills the screen */
+.stageSolo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  zoom: 1.68;
+}
+
+@media (max-height: 940px) {
+  .stageSolo {
+    zoom: 1.4;
+  }
+}
+
+@media (max-height: 780px) {
+  .stageSolo {
+    zoom: 1.12;
+  }
+}
+
+.panelWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 96px;
+}
+
+.replayBtn {
+  position: fixed;
+  right: 28px;
+  bottom: 24px;
+  z-index: 20;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: var(--cursor-btn);
+  transition: transform 0.15s ease;
+}
+
+.replayBtn img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.22));
+}
+
+.replayBtn:hover {
+  transform: scale(1.15);
+}
+
+.replayBtn:active {
+  transform: scale(0.9);
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    translate: 0 36px;
+  }
+}
+
+/* ── shared tablet panel chrome ── */
+.panel {
+  width: 331px;
+  height: 490px;
+  flex-shrink: 0;
+  border: 8px solid #D3D2D2;
+  border-radius: 24px;
+  background: linear-gradient(to bottom, #F0FDF5 0%, #F2F7F4 62%);
+  box-shadow:
+    -2px 5px 1px 0px rgba(0, 0, 0, 0),
+    -1px 3px 1px 0px rgba(0, 0, 0, 0.01),
+    -1px 2px 1px 0px rgba(0, 0, 0, 0.05),
+    0.5px 1px 1px 0px rgba(0, 0, 0, 0.09),
+    0px 2px 6.7px 0px rgba(0, 0, 0, 0.25);
+  padding: 7px 8px;
+  overflow: hidden;
+  animation: panelIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) var(--p, 0s) both;
+}
+
+.slot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+@keyframes cardPopIn {
+  from {
+    opacity: 0;
+    scale: 0.55;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.cardPop {
+  animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--cd)) both;
+}
+
+/* ── left panel: collage ── */
+.collage {
+  position: absolute;
+  inset: 20px;
+  bottom: 64px;
+  display: flex;
+  gap: 11px;
+}
+
+.colA {
+  position: relative;
+  width: 121.5px;
+  flex-shrink: 0;
+}
+
+.card {
+  border: 1px solid #E7E8E7;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card > img:first-child {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cA1 { position: absolute; top: 0; left: 0; width: 121.5px; height: 87px; transform: rotate(-5deg); }
+.cA2 { position: absolute; top: 92px; left: 0; width: 121.5px; height: 101px; transform: rotate(-5deg); }
+.cA3 { position: absolute; top: 198px; left: 0; width: 121.5px; height: 107px; transform: rotate(6deg); }
+.cA4 { position: absolute; top: 315px; left: 0; width: 121.5px; height: 61px; }
+
+.colB {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cB1 { height: 147px; transform: rotate(5deg); flex-shrink: 0; }
+.cB2 { flex: 1; transform: rotate(-7deg); }
+.cB3 { height: 116px; transform: rotate(-5deg); flex-shrink: 0; }
+
+/* ── middle panel: video feed ── */
+.feedClip {
+  position: absolute;
+  inset: 20px;
+  bottom: 62px;
+  overflow: hidden;
+}
+
+.feed {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: feedScroll 15.4s ease-in-out calc(var(--p, 0s) + 1.6s) infinite;
+}
+
+@keyframes blockPopIn {
+  from {
+    opacity: 0;
+    scale: 0.75;
+    translate: 0 18px;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+  }
+}
+
+.blockPop {
+  animation: blockPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--bd)) both;
+}
+
+@keyframes feedScroll {
+  0%,
+  4% {
+    transform: translateY(0);
+  }
+  18%,
+  34% {
+    transform: translateY(-209px);
+  }
+  48%,
+  64% {
+    transform: translateY(-418px);
+  }
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.videoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.thumb {
+  position: relative;
+  height: 156px;
+  border: 2px solid #D3D2D2;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.thumb > img:first-child {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.playBig {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 40px;
+}
+
+.playFades {
+  animation: playFade 0.5s ease calc(var(--p, 0s) + 2.1s) forwards;
+}
+
+@keyframes playFade {
+  to {
+    opacity: 0;
+    scale: 1.4;
+  }
+}
+
+@keyframes fillPlay {
+  from {
+    width: 39px;
+  }
+  to {
+    width: 247px;
+  }
+}
+
+.fillPlays {
+  animation: fillPlay 11s linear calc(var(--p, 0s) + 2.3s) infinite;
+}
+
+@keyframes knobPlay {
+  from {
+    left: 34.7px;
+  }
+  to {
+    left: 242px;
+  }
+}
+
+.knobPlays {
+  animation: knobPlay 11s linear calc(var(--p, 0s) + 2.3s) infinite;
+}
+
+.progressWrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.progressTrack {
+  position: relative;
+  height: 6px;
+}
+
+.progressBg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.5px;
+  height: 2.5px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.progressFill {
+  position: absolute;
+  left: 0;
+  top: 1.2px;
+  height: 3px;
+  background: #269D65;
+}
+
+.progressKnob {
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 6px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 6px;
+}
+
+.controlsLeft {
+  display: flex;
+  align-items: center;
+  gap: 9.4px;
+}
+
+.controlsLeft img,
+.icoFullscreen {
+  display: block;
+}
+
+.time {
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.07px;
+  color: #EAEAEA;
+}
+
+.videoInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.videoText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.videoTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: normal;
+}
+
+.videoChannel {
+  font-size: 9px;
+  font-weight: 800;
+  color: #737373;
+  line-height: normal;
+}
+
+/* ── right panel: map ── */
+.panelMap {
+  /* map runs edge-to-edge against the bezel */
+  padding: 0;
+}
+
+.mapSlot {
+  /* matches the map artwork's paper colour so edges never show through */
+  background: #FAFAF8;
+  border-radius: 16px;
+}
+
+.mapPan {
+  position: absolute;
+  inset: 0;
+  animation: mapPan 1.5s ease-in-out calc(var(--p, 0s) + 3s) forwards;
+}
+
+@keyframes mapPan {
+  to {
+    transform: translateX(-29px);
+  }
+}
+
+@keyframes popUp {
+  from {
+    opacity: 0;
+    scale: 0.4;
+    translate: 0 10px;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+  }
+}
+
+.popIn {
+  animation: popUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + var(--pd)) both;
+}
+
+.mapBg {
+  position: absolute;
+  width: 1150px;
+  height: 767px;
+  left: -389px;
+  top: -154px;
+  transform: rotate(36deg);
+  max-width: none;
+}
+
+.mapRoute {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 295px;
+  height: 410px;
+  max-width: none;
+}
+
+.mapCard {
+  position: absolute;
+  width: 228px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 6.5px;
+  display: flex;
+  gap: 6.5px;
+  align-items: stretch;
+  filter: drop-shadow(-1px 2px 0.5px rgba(0, 0, 0, 0.05)) drop-shadow(0.5px 1px 0.5px rgba(0, 0, 0, 0.09));
+}
+
+.mapCardImg {
+  width: 95px;
+  border-radius: 6.5px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.mapCardText {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 0;
+  width: 110px;
+}
+
+.mapCardTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: #212121;
+}
+
+.mapCardDesc {
+  font-size: 9px;
+  font-weight: 800;
+  color: #808080;
+}
+
+.mapCardMore {
+  font-size: 10px;
+  font-weight: 800;
+  color: #269D65;
+  margin-top: auto;
+}
+
+.mapCardMini {
+  position: absolute;
+  width: 178px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 6.5px;
+  display: flex;
+  gap: 6.5px;
+  align-items: stretch;
+  filter: drop-shadow(-1px 2px 0.5px rgba(0, 0, 0, 0.05)) drop-shadow(0.5px 1px 0.5px rgba(0, 0, 0, 0.09));
+}
+
+.mapCardMiniImg {
+  width: 56px;
+  border-radius: 6.5px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.mapCardMiniText {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 0;
+  min-width: 0;
+}
+
+.thumbVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mapPin {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #FCFCFC;
+  border: 2.3px solid #269D65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.pinTail {
+  position: absolute;
+  bottom: -8.4px;
+  left: 50%;
+  transform: translateX(-50%) scaleY(-1);
+  width: 8.9px;
+  height: 8px;
+}
+
+@media (max-width: 1460px) {
+  .stage {
+    zoom: 1.05;
+  }
+}
+
+@media (max-width: 1100px) {
+  .stage {
+    zoom: 0.7;
+  }
+}
+
+/* ── prompt input bar ── */
+@keyframes barIn {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+
+.promptBar {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  height: 38px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 5px 0 13px;
+  background: #FFFFFF;
+  border: 1.5px solid #E3E3E3;
+  border-radius: 999px;
+  animation: barIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--p, 0s) + 0.2s) both;
+}
+
+/* text sits pre-filled — no typing, the send press fires right away */
+.promptText {
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 800;
+  color: #454545;
+}
+
+@keyframes sendPress {
+  0%,
+  100% {
+    scale: 1;
+  }
+  40% {
+    scale: 0.78;
+  }
+}
+
+.sendBtn {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #269D65;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sendPress 0.35s ease calc(var(--p, 0s) + 0.7s) both;
+}

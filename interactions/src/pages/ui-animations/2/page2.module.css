@@ -1,0 +1,25 @@
+.screen {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  cursor: var(--cursor-page);
+}
+
+.iconBtn {
+  width: 128px !important;
+  height: 128px !important;
+  padding: 0 !important;
+  border-radius: 9999px !important;
+  cursor: var(--cursor-btn) !important;
+}
+
+.iconBtn:hover:not(:disabled) {
+  transform: scale(1.08) !important;
+}
+
+.iconBtn:active:not(:disabled) {
+  transform: scale(0.9) !important;
+}

@@ -1,0 +1,44 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* chroma-key green for screen recording, not a design-system colour */
+  background: #00ff00;
+  cursor: var(--cursor-page);
+}
+
+.counterPill {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: #141416;
+  border-radius: 9999px;
+  padding: 28px 48px;
+}
+
+.playIcon {
+  flex-shrink: 0;
+}
+
+.count {
+  font-family: 'Museo Sans Rounded', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 72px;
+  line-height: 1;
+  color: #fff;
+  /* widest possible 4-digit string, so the pill never resizes mid-count */
+  display: inline-block;
+  width: 181px;
+}
+
+.label {
+  font-family: 'Museo Sans Rounded', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: #fff;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}

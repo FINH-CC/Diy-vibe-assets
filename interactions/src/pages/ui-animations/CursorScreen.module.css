@@ -1,0 +1,31 @@
+.toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 24px;
+  padding: 3px;
+  border: none;
+  border-radius: 9999px;
+  background: var(--color-neutral-4);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.toggle[data-on="true"] {
+  background: #684ff8;
+}
+
+.knob {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+}
+
+.toggle[data-on="true"] .knob {
+  transform: translateX(20px);
+}

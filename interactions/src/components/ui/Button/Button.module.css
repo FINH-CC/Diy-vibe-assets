@@ -1,0 +1,79 @@
+/* ─────────────────────────────────────────────────────
+   DiyButton — source of truth: storybook.diy.org/exhibitions-buttons
+   Rounded rectangle (NOT pill). Matches all 4 Storybook sizes.
+───────────────────────────────────────────────────── */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Museo Sans Rounded', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background-color 0.12s ease, transform 0.1s ease;
+  white-space: nowrap;
+  line-height: 1;
+  outline: none;
+  text-decoration: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(104, 79, 248, 0.3);
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.button:disabled {
+  background: #E3E3E3;
+  color: #B2B2B2;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Sizes (match Storybook: Large / Medium / Small / Compact) ── */
+.lg      { padding: 14px 28px; font-size: 18px; height: 54px; border-radius: 16px; }
+.md      { padding: 10px 22px; font-size: 16px; height: 44px; }
+.sm      { padding: 0 16px;    font-size: 14px; height: 42px; border-radius: 8px; }
+.compact { padding: 5px 12px;  font-size: 13px; height: 30px; border-radius: 8px; }
+
+/* ── Variants ── */
+
+/* Primary — purple fill, white text */
+.primary {
+  background: #684FF8;
+  color: #fff;
+}
+.primary:hover:not(:disabled)  { background: #7861FF; }
+.primary:active:not(:disabled) { background: #543FC7; }
+
+/* Secondary — purple tint bg, purple text */
+.secondary {
+  background: #EDE9FF;
+  color: #684FF8;
+}
+.secondary:hover:not(:disabled)  { background: #DDD6FF; }
+.secondary:active:not(:disabled) { background: #C4B8FF; }
+
+/* Ghost — white bg, purple border */
+.ghost {
+  background: #fff;
+  color: #684FF8;
+  border: 2px solid #684FF8;
+}
+.ghost:hover:not(:disabled)  { background: #EDE9FF; }
+.ghost:active:not(:disabled) { background: #DDD6FF; border-color: #543FC7; color: #543FC7; }
+
+/* Success — green */
+.success {
+  background: #00D3A3;
+  color: #fff;
+}
+.success:hover:not(:disabled)  { background: #0EE3AA; }
+.success:active:not(:disabled) { background: #00BAA1; }
