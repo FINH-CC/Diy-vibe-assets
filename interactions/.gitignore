@@ -8,9 +8,12 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
 dist-ssr
 *.local
+
+# dist/ is intentionally tracked: the dashboard one level up links directly
+# to interactions/dist/ as static files, and nothing builds it automatically
+# on deploy. Run `npm run build` here and commit the result after any change.
 
 # Editor directories and files
 .vscode/*
