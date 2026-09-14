@@ -4,6 +4,10 @@ A dashboard of DIY UI prototypes: a playable Capybara Obby demo, plus a set of r
 editable UI animations. Every card opens the real thing full-screen — nothing here is
 a video recording or an embed of someone else's site.
 
+Picking this up with an AI coding assistant? Read [CLAUDE.md](CLAUDE.md) (or its
+identical twin [AGENTS.md](AGENTS.md) for Codex) first — it's a short list of the
+non-obvious gotchas this project has already hit once.
+
 ## Structure
 
 ```
