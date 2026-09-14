@@ -11,9 +11,11 @@
  *   That's it — index.html reads from this file to build the grid, and
  *   every card opens interactions/dist/#/<live> full-screen.
  *
- * `live` is a route number in the interactions app (interactions/dist/,
- * built from real source pulled from github.com/alexisbardini/diyvibes —
- * see interactions/README.md for how to pull updates or duplicate a page).
+ * `live` is a route number in the interactions app (interactions/dist/).
+ * That app's pages were originally pulled from a *different* repo,
+ * alexisbardini/diyvibes — see interactions/README.md for how to pull
+ * updates or duplicate a page from there. This project's own repo is
+ * whatever you're reading this file in.
  *
  * To change the featured game/demo, edit GAME below.
  */
@@ -21,7 +23,7 @@ window.DIY_ITEMS = {
   GAME: {
     title: "Capybara Obby",
     tags: ["3D Game", "Three.js"],
-    desc: "A full obstacle-course platformer starring a capybara — 5 levels (staircase, gaps, moving bridge, big jump, zigzag), hat picker, themes, and confetti on the win screen. Needs an internet connection on first load for the Three.js CDN.",
+    desc: "An obstacle-course platformer starring a capybara — 5 levels, a hat picker, and switchable themes. Needs internet on first load (Three.js loads from a CDN).",
     cover: "assets/game/cover.jpg",
     href: "assets/game/?step=9",
   },
