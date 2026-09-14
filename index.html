@@ -28,7 +28,6 @@
 
     <div class="block-head">
       <h2>Featured demo</h2>
-      <span>Playable</span>
     </div>
     <a class="card featured" id="game-card" href="#" target="_blank" rel="noopener">
       <div class="card-media"><img id="game-cover" alt="" /></div>
@@ -42,7 +41,6 @@
 
     <div class="block-head" style="margin-top:48px">
       <h2>UI animations</h2>
-      <span id="clip-count"></span>
     </div>
     <div class="grid" id="clip-grid"></div>
 
@@ -110,7 +108,6 @@ cp /tmp/pull/src/app/ui-animations/9/* interactions/src/pages/ui-animations/9/</
       .join("");
 
     const grid = document.getElementById("clip-grid");
-    document.getElementById("clip-count").textContent = CLIPS.length + " animations";
 
     CLIPS.forEach((clip, i) => {
       const card = document.createElement("a");
