@@ -59,22 +59,21 @@
       <div class="modal-body">
         <section>
           <h3>Pull the latest from GitHub</h3>
-          <p>Source of truth: <code>alexisbardini/diyvibes</code>, <code>src/app/ui-animations/</code>.</p>
           <pre>git archive origin/main -- src/app/ui-animations/9 | tar -x -C /tmp/pull
 cp /tmp/pull/src/app/ui-animations/9/* interactions/src/pages/ui-animations/9/</pre>
-          <p>Then re-apply the Next.js→Vite fixes in <code>interactions/README.md</code> if the file changed upstream.</p>
+          <p>Check <code>interactions/README.md</code> for fixes to re-apply.</p>
         </section>
         <section>
           <h3>Make changes</h3>
-          <p>Edit <code>interactions/src/pages/ui-animations/&lt;N&gt;/page.tsx</code> and its <code>.module.css</code>. <code>npm run dev</code> to preview, <code>npm run build</code> to update <code>dist/</code> — that's what the cards link to.</p>
+          <p>Edit <code>interactions/src/pages/ui-animations/&lt;N&gt;/page.tsx</code>. <code>npm run dev</code> to preview, <code>npm run build</code> to publish.</p>
         </section>
         <section>
           <h3>Duplicate an animation</h3>
-          <p>Copy a numbered folder (e.g. <code>interactions/src/pages/ui-animations/9/</code> → <code>.../18/</code>), add a <code>&lt;Route&gt;</code> for it in <code>interactions/src/App.tsx</code>, then rebuild.</p>
+          <p>Copy a numbered folder, add a <code>&lt;Route&gt;</code> in <code>interactions/src/App.tsx</code>, rebuild.</p>
         </section>
         <section>
           <h3>Expand the library</h3>
-          <p>Add one entry to <code>CLIPS</code> in <code>assets/items.js</code> (file, title, desc, and the <code>live</code> route number) — the card and its full-screen link generate automatically.</p>
+          <p>Add an entry to <code>CLIPS</code> in <code>assets/items.js</code> — the card and its link appear automatically.</p>
         </section>
       </div>
     </div>
