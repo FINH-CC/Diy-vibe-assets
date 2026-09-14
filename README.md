@@ -8,6 +8,34 @@ Picking this up with an AI coding assistant? Read [CLAUDE.md](CLAUDE.md) (or its
 identical twin [AGENTS.md](AGENTS.md) for Codex) first — it's a short list of the
 non-obvious gotchas this project has already hit once.
 
+## Quick start
+
+Requires [Node.js](https://nodejs.org) (any recent version — this was built and
+tested on Node 24).
+
+```bash
+git clone git@github.com:FINH-CC/Diy-vibe-assets.git
+cd Diy-vibe-assets
+npx serve .
+```
+
+(A real server, not double-clicking `index.html` — the game and animations
+both need one.)
+
+Open the URL it prints. Everything — the game and all 17 animations — works
+immediately; nothing needs to be built first, since the animations' built
+output (`interactions/dist/`) is committed to the repo.
+
+**To customize an animation** (not just browse it), you additionally need:
+
+```bash
+cd interactions
+npm install
+npm run dev      # live-reloading editor preview
+```
+
+See [interactions/README.md](interactions/README.md) for what to edit.
+
 ## Structure
 
 ```
@@ -45,14 +73,3 @@ interactions/         Real, editable Vite + React app — the 17 UI animations.
 
 Edit the `GAME` object at the top of `assets/items.js` (title, tags, description, cover
 image, and link).
-
-## Running it locally
-
-`index.html` uses a plain `<script src>` (no `fetch`/modules), so it works opened
-directly from disk. The Capybara Obby game and the `interactions/` app both need an
-actual HTTP server (not `file://`) — the game imports Three.js as an ES module from a
-CDN, and `interactions/` is nested under a path that isn't the server root:
-
-```bash
-npx serve .
-```
